@@ -1,4 +1,4 @@
-export type ViewKey = "home" | "create" | "tickets" | "knowledge" | "kb" | "profile";
+export type ViewKey = "home" | "create" | "tickets" | "knowledge" | "profile";
 export type TicketStatus = "Recibido" | "Área Asignada" | "Técnico en Camino" | "Solucionado";
 
 export interface Ticket {

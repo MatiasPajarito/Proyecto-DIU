@@ -10,7 +10,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 import { GraduationCap } from "lucide-react";
 
-import appCss from "../styles.css?url";
+import appCss from "../index.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -140,17 +140,23 @@ function RootComponent() {
               }} 
               className="space-y-4"
             >
-              <div className="space-y-1.5">
-                <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
+              <div className="space-y-1 text-left">
+                {/* Esta es la etiqueta fija que nunca se pierde */}
+                <label 
+                  htmlFor="email" 
+                  className="block text-xs font-bold text-muted-foreground uppercase tracking-wider"
+                >
                   Correo Electrónico
                 </label>
-                <input 
-                  type="email" 
+                
+                {/* Este es el campo donde el usuario escribe, con el ejemplo actualizado */}
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="nombre.apellido@usm.cl"
+                  onChange={(e) => setEmail(e.target.value)} // Asegúrate de mantener tu lógica de estado aquí
+                  className="w-full px-4 py-2 mt-1 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                   required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="jorge.tapia@sansano.usm.cl"
-                  className="w-full px-3 py-2.5 border border-input rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-ring text-foreground bg-background"
                 />
               </div>
               <div className="space-y-1.5">

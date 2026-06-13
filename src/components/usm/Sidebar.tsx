@@ -11,7 +11,6 @@ interface SidebarProps {
 }
 
 export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileOpen, onCloseMobile }: SidebarProps) {
-  // 🔐 CONTROL DE HOVER REAL: Detecta con precisión milimétrica cuándo el mouse entra y sale de la barra
   const [isHovered, setIsHovered] = useState(false);
   
   const menuItems = [
@@ -28,7 +27,6 @@ export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileO
 
   return (
     <>
-      {/* 🌫️ CAPA OSCURA MÓVIL */}
       {isMobileOpen && (
         <div 
           onClick={onCloseMobile}
@@ -36,7 +34,6 @@ export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileO
         />
       )}
 
-      {/* 🎛️ CONTENEDOR PRINCIPAL: Ancho ultra-preciso en PC (72px) que expande a 260px solo en Hover real */}
       <aside 
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -46,7 +43,6 @@ export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileO
       >
         <div className="flex flex-col pt-4">
           
-          {/* Encabezado: Título USM (Sólo existe en código si isHovered es true o si estás en celular) */}
           <div className="px-5 mb-6 h-8 flex items-center justify-between overflow-hidden whitespace-nowrap">
             {(isHovered || isMobileOpen) ? (
               <div className="flex flex-col min-w-[150px] animate-in fade-in duration-200">
@@ -58,11 +54,9 @@ export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileO
                 </span>
               </div>
             ) : (
-              // Cuando está cerrado, mantenemos un marcador de posición del mismo ancho para que no salte el layout
               <div className="w-6 h-6 shrink-0" />
             )}
             
-            {/* Botón de cierre para celulares */}
             <button 
               type="button"
               onClick={onCloseMobile}
@@ -72,7 +66,6 @@ export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileO
             </button>
           </div>
 
-          {/* Enlaces del Menú de Navegación */}
           <nav className="px-2 space-y-1">
             {menuItems.map((item) => {
               const Icon = item.icon;
@@ -87,15 +80,13 @@ export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileO
                     isActive
                       ? "bg-[#002447] text-white font-semibold shadow-inner"
                       : "text-slate-400 hover:bg-slate-800/50 hover:text-white"
-                  } ${isHovered ? "justify-between px-4" : "justify-center"}`}
+                  } ${isHovered || isMobileOpen ? "justify-between px-4" : "justify-center"}`}
                 >
                   <div className="flex items-center gap-4 min-w-0">
-                    {/* Icono perfectamente centrado y estático */}
                     <div className="h-6 w-6 flex items-center justify-center shrink-0">
                       <Icon className={`h-5 w-5 transition-transform duration-200 ${isActive ? "text-white" : "text-slate-400"}`} />
                     </div>
                     
-                    {/* 🛡️ ELIMINACIÓN ABSOLUTA: Si no hay hover, el texto se destruye del DOM, es imposible que se asome */}
                     {(isHovered || isMobileOpen) && (
                       <span className="text-sm tracking-wide text-left truncate animate-in fade-in duration-200">
                         {item.label}
@@ -103,18 +94,11 @@ export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileO
                     )}
                   </div>
 
-                  {/* Badge numérico de requerimientos */}
-                  {item.badge !== undefined && item.badge > 0 && (
-                    <>
-                      {(isHovered || isMobileOpen) ? (
-                        <span className="min-w-[1.25rem] h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold grid place-items-center animate-in fade-in duration-200 shrink-0">
-                          {item.badge}
-                        </span>
-                      ) : (
-                        // En modo contraído ponemos un pequeño punto de notificación sobre el icono si quieren, o nada
-                        <div className="absolute top-2 right-2 w-2 h-2 bg-primary rounded-full md:block hidden" />
-                      )}
-                    </>
+                  {/* Badge: solo visible cuando sidebar está expandido */}
+                  {item.badge !== undefined && item.badge > 0 && (isHovered || isMobileOpen) && (
+                    <span className="min-w-[1.25rem] h-5 px-1.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold grid place-items-center animate-in fade-in duration-200 shrink-0">
+                      {item.badge}
+                    </span>
                   )}
                 </button>
               );
@@ -122,7 +106,6 @@ export function Sidebar({ currentView, onNavigate, activeTicketsCount, isMobileO
           </nav>
         </div>
 
-        {/* Sección de Versión Inferior */}
         {(isHovered || isMobileOpen) && (
           <div className="p-4 border-t border-slate-800 text-center overflow-hidden whitespace-nowrap animate-in fade-in duration-200">
             <span className="text-[10px] text-slate-500 font-medium tracking-wider block">

@@ -1,4 +1,5 @@
 import { PenSquare, Search, ArrowRight } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 import type { ViewKey } from "./types";
 
 export function HomeView({
@@ -8,11 +9,15 @@ export function HomeView({
   onNavigate: (v: ViewKey) => void;
   activeTicketsCount: number;
 }) {
+  // 🔌 Extraemos el usuario conectado desde el cerebro central
+  const { user } = useAuth();
+
   return (
     <div className="max-w-6xl mx-auto w-full">
       <div className="mb-8">
         <h2 className="text-3xl md:text-4xl font-bold text-foreground tracking-tight">
-          ¡Hola, Jorge Tapia! 👋
+          {/* 🔄 Ahora el nombre se pinta dinámicamente según quién inicie sesión */}
+          ¡Hola, {user?.name || "Estudiante"}! 👋
         </h2>
         <p className="mt-2 text-muted-foreground">
           ¿Qué necesitas reportar o revisar hoy en la universidad?
